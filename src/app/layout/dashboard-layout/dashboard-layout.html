@@ -1,0 +1,9 @@
+<div class="dashboard-wrapper">
+  <app-sidebar [mode]="mode"></app-sidebar>
+  
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+  
+  <app-chat-panel *ngIf="showFloatingChat" [mode]="mode"></app-chat-panel>
+</div>

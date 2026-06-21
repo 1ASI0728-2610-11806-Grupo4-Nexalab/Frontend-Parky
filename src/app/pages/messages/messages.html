@@ -1,0 +1,102 @@
+<div class="messages-layout">
+  <!-- Sidebar Inbox -->
+  <div class="inbox-panel">
+    <div class="inbox-header">
+      <h2>Mensajes</h2>
+      <button class="icon-btn"><span class="material-symbols-outlined">edit_square</span></button>
+    </div>
+    
+    <div class="search-box">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <input type="text" placeholder="Buscar conversación...">
+    </div>
+
+    <div class="chat-list">
+      <div class="chat-item" 
+           *ngFor="let chat of chats" 
+           [class.active]="activeChat?.id === chat.id"
+           (click)="selectChat(chat)">
+        <div class="avatar-wrapper">
+          <img [src]="chat.participant.avatarUrl" [alt]="chat.participant.name" class="avatar">
+          <span class="status-indicator"></span>
+        </div>
+        <div class="chat-info">
+          <div class="chat-header-row">
+            <h4>{{ chat.participant.name }}</h4>
+            <span class="time">{{ chat.lastMessageTime }}</span>
+          </div>
+          <div class="chat-preview">
+            <p>{{ chat.lastMessage }}</p>
+            <span class="badge" *ngIf="chat.unreadCount > 0">{{ chat.unreadCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Active Chat Window -->
+  <div class="active-chat-panel" *ngIf="activeChat; else emptyState">
+    <!-- Header -->
+    <div class="chat-window-header">
+      <div class="user-details">
+        <img [src]="activeChat.participant.avatarUrl" class="header-avatar">
+        <div>
+          <h3>{{ activeChat.participant.name }}</h3>
+          <p>{{ activeChat.participant.role === 'propietario' ? 'Propietario' : 'Conductor' }}</p>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="icon-btn"><span class="material-symbols-outlined">call</span></button>
+        <button class="icon-btn"><span class="material-symbols-outlined">more_vert</span></button>
+      </div>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="chat-messages">
+      <div class="date-divider">Hoy</div>
+      
+      <div *ngFor="let msg of activeChat.messages" 
+           class="message-wrapper"
+           [class.outgoing]="msg.senderId === currentUserId"
+           [class.incoming]="msg.senderId !== currentUserId">
+           
+        <img *ngIf="msg.senderId !== currentUserId" [src]="activeChat.participant.avatarUrl" class="msg-avatar">
+        
+        <div class="message-content">
+          <div class="ai-generated-label" *ngIf="msg.isAiGenerated">✨ RESPUESTA GENERADA POR IA</div>
+          <div class="bubble">{{ msg.text }}</div>
+          <div class="msg-time">{{ msg.timestamp }}</div>
+        </div>
+        
+        <img *ngIf="msg.senderId === currentUserId" [src]="dataService.currentUser()?.avatarUrl" class="msg-avatar">
+      </div>
+    </div>
+
+    <!-- Suggestions & Input Area -->
+    <div class="chat-footer">
+      <div class="suggestions-container">
+        <div class="suggestions-title"><span class="material-symbols-outlined">auto_awesome</span> Sugerencias IA</div>
+        <div class="suggestions-row">
+          <button class="suggestion-btn" (click)="useSuggestion('¡Gracias! Ya estoy en camino.')">¡Gracias! Ya estoy en camino.</button>
+          <button class="suggestion-btn" (click)="useSuggestion('¿Me puedes confirmar la dirección exacta?')">Confirmar dirección</button>
+        </div>
+      </div>
+
+      <div class="input-area">
+        <button class="icon-btn attachment"><span class="material-symbols-outlined">attach_file</span></button>
+        <input type="text" [(ngModel)]="newMessageText" placeholder="Escribe un mensaje..." class="chat-input" (keyup.enter)="sendMessage()">
+        <button class="send-btn" [class.active]="newMessageText.length > 0" (click)="sendMessage()">
+          <span class="material-symbols-outlined">send</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #emptyState>
+    <div class="empty-state">
+      <span class="material-symbols-outlined empty-icon">forum</span>
+      <h3>Tus Mensajes</h3>
+      <p>Selecciona una conversación para empezar a chatear.</p>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,99 @@
+<div class="page-container" *ngIf="myGarage">
+  <div class="header-section">
+    <h1>Mi Cochera</h1>
+    <p>Administra los detalles, precio y disponibilidad de tu espacio.</p>
+  </div>
+
+  <div class="garage-layout">
+    <!-- Left Column: Main Details -->
+    <div class="main-column">
+      
+      <div class="photo-card">
+        <div class="garage-photo" [style.background-image]="'url(' + myGarage.imageUrl + ')'">
+          <div class="photo-overlay">
+            <button class="icon-btn-light"><span class="material-symbols-outlined">edit</span> Cambiar Foto</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="card details-card">
+        <h3>Información Principal</h3>
+        
+        <div class="form-group">
+          <label>Dirección Exacta</label>
+          <div class="input-with-icon">
+            <span class="material-symbols-outlined">location_on</span>
+            <input type="text" [(ngModel)]="myGarage.address">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Distrito</label>
+            <input type="text" [(ngModel)]="myGarage.district">
+          </div>
+          <div class="form-group">
+            <label>Precio por Hora ($)</label>
+            <div class="input-with-icon">
+              <span class="material-symbols-outlined">payments</span>
+              <input type="number" [(ngModel)]="myGarage.pricePerHour" step="0.5">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card features-card">
+        <h3>Características y Amenidades</h3>
+        <p class="subtitle">Selecciona las ventajas de tu cochera para destacar en las búsquedas.</p>
+        
+        <div class="features-grid">
+          <div class="feature-item" 
+               *ngFor="let feat of availableFeatures"
+               [class.selected]="hasFeature(feat.label)"
+               (click)="toggleFeature(feat.label)">
+            <span class="material-symbols-outlined">{{ feat.icon }}</span>
+            <span>{{ feat.label }}</span>
+            <div class="checkbox">
+              <span class="material-symbols-outlined" *ngIf="hasFeature(feat.label)">check</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Status & Actions -->
+    <div class="sidebar-column">
+      
+      <div class="card status-card">
+        <div class="status-header">
+          <h3>Disponibilidad</h3>
+          <div class="toggle-switch" [class.on]="myGarage.isAvailable" (click)="toggleAvailability()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+        
+        <div class="status-indicator-box" [class.available]="myGarage.isAvailable">
+          <span class="material-symbols-outlined">
+            {{ myGarage.isAvailable ? 'sensors' : 'sensors_off' }}
+          </span>
+          <div class="status-text">
+            <h4>{{ myGarage.isAvailable ? 'Cochera Activa' : 'Cochera Pausada' }}</h4>
+            <p>{{ myGarage.isAvailable ? 'Recibiendo solicitudes de reserva.' : 'Oculta en los resultados de búsqueda.' }}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="card ai-card">
+        <div class="ai-header">
+          <span class="material-symbols-outlined">auto_awesome</span>
+          <h3>Optimización IA</h3>
+        </div>
+        <p>Según el tráfico actual en <strong>{{ myGarage.district }}</strong>, te sugerimos subir el precio a <strong>${{ (myGarage.pricePerHour + 1).toFixed(2) }}/h</strong> temporalmente.</p>
+        <button class="ai-btn">Aplicar Sugerencia</button>
+      </div>
+
+      <button class="save-btn">Guardar Cambios</button>
+    </div>
+  </div>
+</div>

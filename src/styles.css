@@ -1,0 +1,252 @@
+/* Google Fonts: Outfit for headings and Plus Jakarta Sans for body text */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import "leaflet/dist/leaflet.css";
+
+:root {
+  /* Color Palette */
+  --primary-color: #1a3a8f;          /* Dark navy blue */
+  --primary-dark: #0f2560;           /* Hover dark blue */
+  --primary-light: #e0e7ff;          /* Light slate blue tint */
+  --secondary-color: #059669;        /* Teal / Emerald */
+  --secondary-dark: #047857;         /* Hover dark teal */
+  --accent-color: #0ea5e9;           /* Cyan / Blue accent */
+  --accent-light: #e0f2fe;           /* Light cyan background */
+  
+  --bg-green: #f0fdf4;               /* Light green background */
+  --border-green: #dcfce7;           /* Light green border */
+  --text-green: #166534;             /* Dark green text */
+  
+  --bg-light: #f8fafc;               /* Slate 50 background */
+  --bg-white: #ffffff;               /* Pure white */
+  --bg-panel: #112255;               /* Deep navy blue for camera feed panel */
+  
+  --text-dark: #0f172a;              /* Slate 900 primary text */
+  --text-muted: #64748b;             /* Slate 500 secondary text */
+  --text-light: #ffffff;             /* White text */
+  --text-light-muted: #93c5fd;       /* Muted light blue text */
+  
+  --border-color: #e2e8f0;           /* Slate 200 borders */
+  --border-focus: #3b82f6;           /* Blue border on input focus */
+  --input-error-bg: #fef2f2;         /* Light mode error input background */
+  
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.05), 0 1px 2px rgba(0, 0, 0, 0.03);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  
+  /* Fonts */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
+}
+
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text-dark);
+  background-color: var(--bg-white);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 700;
+  color: var(--text-dark);
+}
+
+a {
+  color: var(--accent-color);
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.2s ease;
+}
+
+a:hover {
+  color: #0284c7;
+  text-decoration: underline;
+}
+
+/* Flex layout helper for Full Screen Page Panels */
+.auth-page-wrapper {
+  display: grid;
+  grid-template-columns: 420px 1fr;
+  min-height: 100vh;
+  width: 100%;
+}
+
+@media (max-width: 900px) {
+  .auth-page-wrapper {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Custom form elements and styling */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+  width: 100%;
+  position: relative;
+}
+
+.form-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--text-dark);
+  text-transform: capitalize;
+}
+
+.input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.input-icon-left {
+  position: absolute;
+  left: 1rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.input-icon-right {
+  position: absolute;
+  right: 1rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+.input-icon-right:hover {
+  color: var(--text-dark);
+}
+
+.form-control {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  padding-left: 2.75rem; /* Space for left icon */
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 500;
+  background-color: var(--bg-white);
+  color: var(--text-dark);
+  transition: all 0.2s ease;
+}
+
+.form-control:focus {
+  outline: none;
+  border-color: var(--border-focus);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+}
+
+.form-control::placeholder {
+  color: #94a3b8;
+  font-weight: 400;
+}
+
+.input-error {
+  border-color: #ef4444 !important;
+  background-color: var(--input-error-bg) !important;
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.875rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
+  text-align: center;
+}
+
+.btn-primary {
+  background-color: var(--primary-color);
+  color: var(--text-light);
+}
+
+.btn-primary:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(26, 58, 143, 0.2);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-outline {
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  color: var(--text-dark);
+  font-weight: 600;
+}
+
+.btn-outline:hover {
+  background-color: var(--bg-light);
+  border-color: #cbd5e1;
+}
+
+/* Animation utilities */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 0.4s ease forwards;
+}
+
+/* Dark Mode Theme */
+body.dark-theme {
+  --primary-color: #3b82f6;          /* Lighter blue */
+  --primary-dark: #60a5fa;           
+  --primary-light: #1e3a8a;          /* Dark slate blue for backgrounds */
+  
+  --secondary-color: #10b981;        /* Brighter emerald */
+  --secondary-dark: #34d399;         
+  
+  --bg-green: #064e3b;               /* Deep green background */
+  --border-green: #065f46;           /* Deep green border */
+  --text-green: #34d399;             /* Bright green text */
+  
+  --bg-light: #0f172a;               /* Deep slate background */
+  --bg-white: #1e293b;               /* Slightly lighter slate for cards */
+  --bg-panel: #020617;               /* Very dark blue */
+  
+  --text-dark: #f8fafc;              /* White text */
+  --text-muted: #94a3b8;             /* Light gray */
+  --text-light: #ffffff;
+  
+  --border-color: #334155;           /* Dark borders */
+  --border-focus: #60a5fa;           /* Blue focus */
+  --input-error-bg: rgba(239, 68, 68, 0.15); /* Dark mode error input background */
+}

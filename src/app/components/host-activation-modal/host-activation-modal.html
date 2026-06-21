@@ -1,0 +1,89 @@
+<div class="modal-backdrop" (click)="close.emit()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- Left Pane -->
+    <div class="modal-left">
+      <div class="icon-circle">
+        <span class="material-symbols-outlined">home</span>
+      </div>
+      <h2>Activa tu Cochera</h2>
+      <p class="description">
+        Únete a la red de anfitriones Parky y genera ingresos pasivos alquilando tu espacio de forma segura y automatizada.
+      </p>
+      
+      <ul class="benefits-list">
+        <li>
+          <span class="material-symbols-outlined benefit-icon">check_circle</span>
+          <span>Validación de espacio por IA garantizada.</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined benefit-icon">payments</span>
+          <span>Pagos seguros y automáticos.</span>
+        </li>
+        <li>
+          <span class="material-symbols-outlined benefit-icon">smartphone</span>
+          <span>Control total desde tu app.</span>
+        </li>
+      </ul>
+
+      <div class="verified-badge">
+        <span>COCHERA VERIFICADA</span>
+        <span class="material-symbols-outlined">check_circle</span>
+      </div>
+    </div>
+
+    <!-- Right Pane -->
+    <div class="modal-right">
+      <div class="modal-header">
+        <h3>Detalles del Espacio</h3>
+        <button class="close-btn" (click)="close.emit()">
+          <span class="material-symbols-outlined">close</span>
+        </button>
+      </div>
+
+      <div class="form-section">
+        <div class="form-group">
+          <label>DIRECCIÓN DE LA COCHERA</label>
+          <div class="input-wrapper">
+            <span class="material-symbols-outlined input-icon-left">location_on</span>
+            <input type="text" class="form-control" value="Av. Libertador 1234">
+            <span class="material-symbols-outlined input-icon-right success">check_circle</span>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>LARGO (METROS)</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined input-icon-left">height</span>
+              <input type="text" class="form-control" value="5.2">
+            </div>
+          </div>
+          <div class="form-group">
+            <label>ANCHO (METROS)</label>
+            <div class="input-wrapper">
+              <span class="material-symbols-outlined input-icon-left">swap_horiz</span>
+              <input type="text" class="form-control" value="2.8">
+            </div>
+          </div>
+        </div>
+
+        <div class="terms-box">
+          <div class="custom-checkbox">
+            <input type="checkbox" id="termsIA" checked>
+          </div>
+          <div class="terms-text">
+            <label for="termsIA">
+              Términos y Permisos de Monitoreo IA 
+              <span class="material-symbols-outlined info-icon">info</span>
+            </label>
+            <p>Autorizo a Parky a conectar y analizar las cámaras de mi cochera utilizando visión artificial para validar la disponibilidad del espacio en tiempo real.</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-primary submit-btn" (click)="activateHost()">
+        Activar mi Cochera <span class="material-symbols-outlined">arrow_forward</span>
+      </button>
+    </div>
+  </div>
+</div>

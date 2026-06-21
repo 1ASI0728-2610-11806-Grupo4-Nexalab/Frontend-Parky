@@ -1,0 +1,123 @@
+<div class="page-container">
+  <div class="header-section">
+    <h1>Configuración</h1>
+    <p>Gestiona los detalles de tu cuenta, notificaciones y pagos.</p>
+  </div>
+
+  <div class="settings-grid">
+    
+    <!-- Profile Settings -->
+    <div class="settings-card">
+      <div class="card-header">
+        <span class="material-symbols-outlined icon">person</span>
+        <h3>Datos Personales</h3>
+      </div>
+      
+      <div class="form-group">
+        <label>Nombre Completo</label>
+        <input type="text" [(ngModel)]="profile.name">
+      </div>
+      
+      <div class="form-group">
+        <label>Correo Electrónico</label>
+        <input type="email" [(ngModel)]="profile.email">
+      </div>
+      
+      <div class="form-group">
+        <label>Teléfono</label>
+        <input type="tel" [(ngModel)]="profile.phone">
+      </div>
+    </div>
+
+    <!-- Payout Settings (Solo para Propietarios) -->
+    <div class="settings-card" *ngIf="!isDriver">
+      <div class="card-header">
+        <span class="material-symbols-outlined icon">account_balance</span>
+        <h3>Método de Cobro</h3>
+      </div>
+      
+      <div class="form-group">
+        <label>Banco de Destino</label>
+        <select [(ngModel)]="payout.bank">
+          <option value="Banco BCP">Banco BCP</option>
+          <option value="Interbank">Interbank</option>
+          <option value="BBVA">BBVA</option>
+          <option value="Scotiabank">Scotiabank</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Número de Cuenta</label>
+        <input type="text" [(ngModel)]="payout.accountNumber">
+      </div>
+      
+      <div class="toggle-row">
+        <div>
+          <h4>Retiro Automático</h4>
+          <p>Transfiere el dinero a mi cuenta cada viernes.</p>
+        </div>
+        <div class="toggle-switch" [class.on]="payout.autoWithdraw" (click)="payout.autoWithdraw = !payout.autoWithdraw">
+          <div class="toggle-knob"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notification & Theme Settings -->
+    <div class="settings-card full-width">
+      <div class="card-header">
+        <span class="material-symbols-outlined icon">settings</span>
+        <h3>Preferencias y Tema</h3>
+      </div>
+      
+      <div class="notifications-list">
+        
+        <div class="toggle-row theme-toggle">
+          <div>
+            <h4>Modo Noche (Dark Mode)</h4>
+            <p>Cambia el esquema de colores a una paleta oscura para descansar la vista.</p>
+          </div>
+          <div class="toggle-switch" [class.on]="darkMode" (click)="toggleDarkMode()">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <h4>Nuevas Reservas</h4>
+            <p>Recibir alertas inmediatas cuando un conductor reserva.</p>
+          </div>
+          <div class="toggle-switch" [class.on]="notifications.newReservation" (click)="notifications.newReservation = !notifications.newReservation">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <h4>Mensajes de Chat</h4>
+            <p>Avisarme cuando alguien me escriba o la IA responda por mí.</p>
+          </div>
+          <div class="toggle-switch" [class.on]="notifications.chatMessages" (click)="notifications.chatMessages = !notifications.chatMessages">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+        <div class="toggle-row">
+          <div>
+            <h4>Resumen Semanal</h4>
+            <p>Recibir un reporte de ingresos todos los lunes.</p>
+          </div>
+          <div class="toggle-switch" [class.on]="notifications.weeklyReport" (click)="notifications.weeklyReport = !notifications.weeklyReport">
+            <div class="toggle-knob"></div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <div class="actions-footer">
+    <button class="logout-btn" (click)="logout()">Cerrar Sesión</button>
+    <button class="save-btn" (click)="saveSettings()">Guardar Cambios</button>
+  </div>
+</div>

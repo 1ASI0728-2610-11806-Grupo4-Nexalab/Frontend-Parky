@@ -1,0 +1,72 @@
+<div class="panel-container">
+  <!-- Top brand branding -->
+  <div class="brand-overlay fade-in">
+    <div class="logo-wrapper">
+      <span class="logo-circle">P</span>
+      <span class="logo-txt">Parky</span>
+    </div>
+    
+    @if (isRegisterPage()) {
+      <h2 class="brand-title">Únete a la red de estacionamiento inteligente</h2>
+      <p class="brand-desc">
+        Regístrate una vez y accede a una cuenta unificada para conductores y propietarios.
+      </p>
+    } @else {
+      <h2 class="brand-title">El futuro del estacionamiento inteligente</h2>
+      <p class="brand-desc">
+        Únete a la red de estacionamiento más avanzada. Conecta tu espacio libre o encuentra el lugar perfecto en segundos usando inteligencia artificial.
+      </p>
+    }
+  </div>
+
+  <!-- Bottom visual CCTV feed mockup -->
+  <div class="cctv-feed-card fade-in">
+    <div class="cctv-header">
+      <div class="cctv-status">
+        <span class="status-dot"></span>
+        <span>REC</span>
+      </div>
+      <div class="cctv-meta">
+        <span>CAM_08 // COCHERA_PRIME</span>
+      </div>
+      <div class="cctv-timer">{{ cctvTime() }}</div>
+    </div>
+    
+    <div class="cctv-screen">
+      <img src="images/cctv_parking.png" alt="CCTV Feed View" class="cctv-image">
+      
+      <!-- Scanning Overlay Effects -->
+      <div class="cctv-scan-grid"></div>
+      <div class="scanner-bar"></div>
+      
+      <!-- Vehicle detection overlays -->
+      <div class="ai-overlay">
+        <!-- Detection Box 1 (Flickers slightly with animation) -->
+        <div class="ai-box box-1">
+          <span class="ai-tag">CARRO DETECTADO [{{ matchPercentage() }}%]</span>
+        </div>
+        
+        <!-- Detection Box 2 -->
+        <div class="ai-box box-2">
+          <span class="ai-tag">VACANTE</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Real-time metrics bar -->
+    <div class="cctv-footer">
+      <div class="metric">
+        <span class="metric-label">ESTADO IA:</span>
+        <span class="metric-val text-green">{{ systemStatus() }}</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">CONTEO IA:</span>
+        <span class="metric-val">{{ detectionCount() }} VEHÍCULOS</span>
+      </div>
+      <div class="metric">
+        <span class="metric-label">ESPACIOS LIBRES:</span>
+        <span class="metric-val text-cyan">{{ freeSpaces() }}</span>
+      </div>
+    </div>
+  </div>
+</div>

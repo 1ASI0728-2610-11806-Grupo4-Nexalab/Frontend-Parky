@@ -1,0 +1,88 @@
+<div class="owner-dashboard">
+  <div class="dashboard-header">
+    <h1>Resumen de Ingresos Pasivos</h1>
+    <p>Monitorea el rendimiento de tu cochera en tiempo real.</p>
+  </div>
+
+  <div class="stats-grid">
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon income-icon">💼</span>
+        <span class="trend positive">↗ +12.5%</span>
+      </div>
+      <p class="stat-label">Ingresos del Mes</p>
+      <h2 class="stat-value">$450.00</h2>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon time-icon">⏱</span>
+      </div>
+      <p class="stat-label">Horas Alquiladas</p>
+      <h2 class="stat-value">124h</h2>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-header">
+        <span class="stat-icon star-icon">⭐</span>
+      </div>
+      <p class="stat-label">Calificación Promedio</p>
+      <h2 class="stat-value">4.9/5</h2>
+    </div>
+  </div>
+
+  <div class="main-content-grid">
+    <div class="chart-card">
+      <h3>Ingresos Semanales</h3>
+      
+      <div class="chart-container">
+        <!-- Mock Bar Chart -->
+        <div class="y-axis">
+          <span>120</span>
+          <span>100</span>
+          <span>80</span>
+          <span>60</span>
+          <span>40</span>
+          <span>20</span>
+          <span>0</span>
+        </div>
+        
+        <div class="bars-area">
+          <div class="bar-group" *ngFor="let item of weeklyData">
+            <div class="bar" [style.height]="(item.value / maxWeeklyValue * 100) + '%'"></div>
+            <span class="x-label">{{ item.day }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="live-state-card">
+      <div class="live-header">
+        <h3>Estado en Vivo</h3>
+        <span class="status-badge">● RESERVADO</span>
+      </div>
+
+      <div class="camera-feed-small">
+        <img src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80" alt="Garage Feed">
+        <div class="camera-label">Cámara IA Activa</div>
+      </div>
+
+      <div class="live-details">
+        <div class="detail-row">
+          <span>Vehículo en camino</span>
+          <strong>Carlos M. (Llegando)</strong>
+        </div>
+        <div class="detail-row">
+          <span>Reserva</span>
+          <strong>14:30 - 18:30 hs</strong>
+        </div>
+        <div class="detail-row highlight">
+          <span>Ingreso estimado</span>
+          <strong class="positive-text">+$16.00</strong>
+        </div>
+      </div>
+
+      <button class="btn btn-outline details-btn">Ver Detalles de Reserva</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,227 @@
+.form-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 2rem;
+  background-color: var(--bg-white);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.form-card {
+  width: 100%;
+  max-width: 420px;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-header {
+  margin-bottom: 2.25rem;
+}
+
+.form-header h1 {
+  font-size: 1.85rem;
+  color: var(--primary-dark);
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  letter-spacing: -0.01em;
+}
+
+.form-header p {
+  color: var(--text-muted);
+  font-size: 0.95rem;
+  font-weight: 500;
+}
+
+.password-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.forgot-link {
+  font-size: 0.8rem;
+  color: var(--accent-color);
+  font-weight: 600;
+}
+
+.forgot-link:hover {
+  color: #0284c7;
+}
+
+/* Custom Checkbox Design */
+.form-checkbox-row {
+  margin-bottom: 1.5rem;
+}
+
+.checkbox-container {
+  display: block;
+  position: relative;
+  padding-left: 2rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  user-select: none;
+}
+
+.checkbox-container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  position: absolute;
+  top: 1px;
+  left: 0;
+  height: 18px;
+  width: 18px;
+  background-color: var(--bg-white);
+  border: 1.5px solid var(--border-color);
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.checkbox-container:hover input ~ .checkmark {
+  border-color: #cbd5e1;
+}
+
+.checkbox-container input:checked ~ .checkmark {
+  background-color: var(--primary-color);
+  border-color: var(--primary-color);
+}
+
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+.checkbox-container input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.checkbox-container .checkmark:after {
+  left: 5px;
+  top: 2px;
+  width: 5px;
+  height: 9px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+/* Submit Button Layout */
+.btn-submit {
+  padding: 0.875rem;
+  margin-bottom: 2rem;
+}
+
+.btn-arrow {
+  transition: transform 0.25s ease;
+}
+
+.btn-submit:hover .btn-arrow {
+  transform: translateX(3px);
+}
+
+/* Registration section */
+.register-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #94a3b8;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+}
+
+.register-divider::before,
+.register-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.register-divider span {
+  padding: 0 1rem;
+}
+
+.register-options {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+}
+
+.btn-reg-option {
+  text-align: left;
+  justify-content: flex-start;
+  padding: 0.75rem 1.25rem;
+  font-size: 0.9rem;
+}
+
+.icon-btn {
+  color: var(--text-muted);
+  margin-right: 0.25rem;
+}
+
+.btn-reg-option:hover .icon-btn {
+  color: var(--primary-color);
+}
+
+/* Error states */
+
+.error-text {
+  font-size: 0.75rem;
+  color: #ef4444;
+  font-weight: 600;
+  margin-top: 0.25rem;
+}
+
+/* Success alert box styles */
+.alert {
+  display: flex;
+  gap: 0.85rem;
+  padding: 1rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1.5rem;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  animation: fadeIn 0.3s ease;
+}
+
+.alert-success {
+  background-color: #ecfdf5;
+  color: #065f46;
+  border: 1px solid #a7f3d0;
+}
+
+.alert-success svg {
+  color: #10b981;
+  flex-shrink: 0;
+}
+
+/* Spinner animation */
+.spinner {
+  display: inline-block;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  border-radius: 50%;
+  border-top-color: #fff;
+  animation: spin 1s ease-in-out infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Responsive Overrides */
+@media (max-width: 900px) {
+  app-camera-simulation {
+    display: none;
+  }
+}

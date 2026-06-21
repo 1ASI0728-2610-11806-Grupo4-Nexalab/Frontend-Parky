@@ -1,0 +1,250 @@
+.driver-view-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Custom Marker Styles inside map */
+::ng-deep .custom-marker-wrapper {
+  background: none;
+  border: none;
+}
+
+::ng-deep .custom-marker {
+  background-color: var(--bg-white);
+  border-radius: 20px;
+  padding: 4px 12px;
+  font-weight: 700;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+  display: inline-block;
+  position: relative;
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+::ng-deep .custom-marker.selected {
+  background-color: var(--primary-color);
+  color: white;
+  transform: scale(1.1);
+}
+
+::ng-deep .custom-marker .price {
+  font-size: 0.9rem;
+}
+
+::ng-deep .custom-marker .marker-dot {
+  width: 12px;
+  height: 12px;
+  background-color: var(--primary-dark);
+  border-radius: 50%;
+  position: absolute;
+  bottom: -18px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 0 0 0 2px white;
+}
+
+::ng-deep .custom-marker.selected .marker-dot {
+  background-color: var(--primary-color);
+}
+
+/* Search Overlay */
+.search-overlay {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  z-index: 10;
+  width: 400px;
+  max-width: calc(100% - 48px);
+}
+
+.search-bar {
+  display: flex;
+  align-items: center;
+  background-color: var(--bg-white);
+  border-radius: 12px;
+  padding: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.search-icon {
+  padding: 0 0.5rem;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-input {
+  flex: 1;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1rem;
+  outline: none;
+  font-family: var(--font-body);
+}
+
+.filter-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  color: var(--primary-color);
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* AI Overlay Card */
+.ai-overlay-card {
+  position: absolute;
+  bottom: 24px;
+  left: 24px;
+  z-index: 9999;
+  width: 320px;
+  background-color: var(--bg-white);
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: var(--shadow-card);
+  animation: slideUp 0.3s ease;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.card-header {
+  background-color: var(--primary-dark);
+  color: white;
+  padding: 0.75rem 1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.card-header h3 {
+  margin: 0;
+  font-size: 0.9rem;
+  color: white;
+  flex: 1;
+}
+
+.live-badge {
+  background-color: var(--secondary-color);
+  color: white;
+  font-size: 0.65rem;
+  font-weight: 700;
+  padding: 2px 6px;
+  border-radius: 10px;
+}
+
+.ai-icon {
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  color: white;
+}
+
+.close-btn {
+  background: none;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+}
+
+.close-btn .material-symbols-outlined {
+  font-size: 1.2rem;
+}
+
+.camera-feed {
+  position: relative;
+  height: 160px;
+  background-color: #000;
+}
+
+.camera-feed img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  opacity: 0.8;
+}
+
+.camera-label {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  background-color: rgba(0,0,0,0.6);
+  color: white;
+  font-size: 0.7rem;
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.overlay-box {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border: 2px solid var(--secondary-color);
+  background-color: rgba(5, 150, 105, 0.2);
+  width: 100px;
+  height: 120px;
+  color: white;
+  font-size: 0.65rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+}
+
+.card-details {
+  padding: 1.25rem;
+}
+
+.card-details h2 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.1rem;
+}
+
+.card-details p {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}
+
+.card-actions {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.reserve-btn {
+  flex: 1;
+  padding: 0.6rem;
+}
+
+.btn-icon {
+  background-color: var(--bg-light);
+  border: 1px solid var(--border-color);
+  border-radius: 0.5rem;
+  width: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}
+
+.btn-icon:hover {
+  background-color: #e2e8f0;
+}

@@ -1,0 +1,49 @@
+<div class="driver-view-container">
+  <!-- Search Overlay -->
+  <div class="search-overlay">
+    <div class="search-bar">
+      <span class="material-symbols-outlined search-icon">search</span>
+      <input type="text" placeholder="¿A dónde te diriges hoy?" class="search-input">
+      <button class="filter-btn">
+        <span class="material-symbols-outlined filter-icon">tune</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- The Map -->
+  <div #map class="map-container"></div>
+
+  <!-- Validation AI Overlay Card -->
+  <div class="ai-overlay-card" *ngIf="showOverlay && selectedGarage">
+    <div class="card-header">
+      <span class="material-symbols-outlined ai-icon">auto_awesome</span>
+      <h3>Validación de Espacio IA</h3>
+      <span class="live-badge">● EN VIVO</span>
+      <button class="close-btn" (click)="closeOverlay()">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    
+    <div class="camera-feed">
+      <img [src]="selectedGarage.imageUrl" alt="Camera Feed">
+      <div class="camera-label">Cámara: Cochera #{{selectedGarage.id}}</div>
+      <div class="overlay-box" *ngIf="selectedGarage.isAvailable">
+        EMPTY: BAY 3
+      </div>
+    </div>
+    
+    <div class="card-details">
+      <h2>{{ selectedGarage.address }}</h2>
+      <p>{{ selectedGarage.isAvailable ? 'Espacio validado y libre para estacionar.' : 'Espacio actualmente ocupado.' }}</p>
+      
+      <div class="card-actions">
+        <button class="btn btn-primary reserve-btn" [disabled]="!selectedGarage.isAvailable">
+          {{ selectedGarage.isAvailable ? 'Reservar Ahora' : 'No Disponible' }}
+        </button>
+        <button class="btn btn-icon route-btn">
+          <span class="material-symbols-outlined">near_me</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

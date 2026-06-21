@@ -1,0 +1,91 @@
+<div class="page-container">
+  <div class="header-section">
+    <h1>Estadísticas</h1>
+    <p>Analiza el rendimiento y demanda de tu cochera.</p>
+  </div>
+
+  <div class="stats-grid">
+    
+    <!-- Left Column -->
+    <div class="main-column">
+      
+      <!-- Chart Card -->
+      <div class="card chart-card">
+        <div class="card-header">
+          <h3>Ingresos Semanales</h3>
+          <span class="badge positive">+14% vs Sem. Pasada</span>
+        </div>
+        
+        <div class="bar-chart">
+          <div class="bar-group" *ngFor="let item of weeklyData">
+            <div class="bar-wrapper">
+              <div class="bar" [style.height]="item.height">
+                <span class="tooltip">${{ item.value }}</span>
+              </div>
+            </div>
+            <span class="day-label">{{ item.day }}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews Card -->
+      <div class="card reviews-card">
+        <div class="card-header">
+          <h3>Comentarios Recientes</h3>
+          <span class="rating-badge"><span class="material-symbols-outlined">star</span> 4.8 Promedio</span>
+        </div>
+        
+        <div class="reviews-list">
+          <div class="review-item" *ngFor="let rev of reviews">
+            <div class="review-header">
+              <div class="reviewer">
+                <div class="avatar-placeholder">{{ rev.name.charAt(0) }}</div>
+                <div>
+                  <h4>{{ rev.name }}</h4>
+                  <span class="date">{{ rev.date }}</span>
+                </div>
+              </div>
+              <div class="stars">
+                <span class="material-symbols-outlined star" *ngFor="let s of [1,2,3,4,5]" [class.filled]="s <= rev.rating">star</span>
+              </div>
+            </div>
+            <p class="comment">{{ rev.comment }}</p>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Right Column: Summaries -->
+    <div class="sidebar-column">
+      
+      <div class="summary-card">
+        <span class="material-symbols-outlined icon blue">visibility</span>
+        <div>
+          <h4>Vistas en el Mapa</h4>
+          <h2>1,452</h2>
+          <p>Esta semana</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <span class="material-symbols-outlined icon green">check_circle</span>
+        <div>
+          <h4>Tasa de Conversión</h4>
+          <h2>24%</h2>
+          <p>De vistas a reservas</p>
+        </div>
+      </div>
+
+      <div class="summary-card">
+        <span class="material-symbols-outlined icon orange">timer</span>
+        <div>
+          <h4>Horas Alquiladas</h4>
+          <h2>48h</h2>
+          <p>En los últimos 7 días</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>

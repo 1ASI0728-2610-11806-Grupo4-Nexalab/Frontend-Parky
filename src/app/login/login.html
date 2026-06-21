@@ -1,0 +1,135 @@
+<div class="auth-page-wrapper">
+  <!-- Left Column: IA Camera Visual Feed (adapts context automatically) -->
+  <app-camera-simulation></app-camera-simulation>
+
+  <!-- Right Column: Login Form -->
+  <div class="form-container">
+    <div class="form-card fade-in">
+      
+      <!-- Headers -->
+      <div class="form-header">
+        <h1>Bienvenido de nuevo</h1>
+        <p>Ingresa a tu cuenta para continuar</p>
+      </div>
+
+      <!-- Success Alert -->
+      @if (loginSuccess()) {
+        <div class="alert alert-success">
+          <svg viewBox="0 0 24 24" width="20" height="20">
+            <path fill="currentColor" d="M12 2C6.5 2 2 6.5 2 12S6.5 22 12 22 22 17.5 22 12 17.5 2 12 2M10 17L5 12L6.41 10.59L10 14.17L17.59 6.58L19 8L10 17Z"/>
+          </svg>
+          <div>
+            <strong>¡Inicio de sesión exitoso!</strong>
+            <p>Redirigiendo a tu panel...</p>
+          </div>
+        </div>
+      }
+
+      <!-- Login Form element -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <!-- Email Input -->
+        <div class="form-group">
+          <label class="form-label" for="email">Correo Electrónico</label>
+          <div class="input-wrapper">
+            <span class="input-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M20,4H4C2.89,4 2,4.89 2,6V18A2,2 0 0,0 4,20H20A2,2 0 0,0 22,18V6A2,2 0 0,0 20,4M20,8L12,13L4,8V6L12,11L20,6V8Z"/>
+              </svg>
+            </span>
+            <input 
+              type="email" 
+              id="email" 
+              class="form-control" 
+              placeholder="tu@correo.com" 
+              formControlName="email"
+              [class.input-error]="loginForm.get('email')?.touched && loginForm.get('email')?.invalid"
+            >
+          </div>
+          @if (loginForm.get('email')?.touched && loginForm.get('email')?.invalid) {
+            <span class="error-text">Ingresa un correo electrónico válido</span>
+          }
+        </div>
+
+        <!-- Password Input -->
+        <div class="form-group">
+          <div class="password-label-row">
+            <label class="form-label" for="password">Contraseña</label>
+            <a href="#" class="forgot-link">¿Olvidaste tu contraseña?</a>
+          </div>
+          <div class="input-wrapper">
+            <span class="input-icon-left">
+              <svg viewBox="0 0 24 24" width="18" height="18">
+                <path fill="currentColor" d="M12,17A2,2 0 0,0 14,15C14,13.89 13.1,13 12,13A2,2 0 0,0 10,15C10,16.1 10.9,17 12,17M18,8A2,2 0 0,1 20,10V20A2,2 0 0,1 18,22H6A2,2 0 0,1 4,20V10C4,8.89 4.9,8 6,8H7V6A5,5 0 0,1 12,1A5,5 0 0,1 17,6V8H18M12,3A3,3 0 0,0 9,6V8H15V6A3,3 0 0,0 12,3Z"/>
+              </svg>
+            </span>
+            <input 
+              [type]="showPassword() ? 'text' : 'password'" 
+              id="password" 
+              class="form-control" 
+              placeholder="********" 
+              formControlName="password"
+              [class.input-error]="loginForm.get('password')?.touched && loginForm.get('password')?.invalid"
+            >
+            <button type="button" class="input-icon-right" (click)="togglePassword()" aria-label="Toggle password visibility">
+              @if (showPassword()) {
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path fill="currentColor" d="M12,17A5,5 0 0,1 7,12A5,5 0 0,1 12,7A5,5 0 0,1 17,12A5,5 0 0,1 12,17M12,9A3,3 0 0,0 9,12A3,3 0 0,0 12,15A3,3 0 0,0 15,12A3,3 0 0,0 12,9M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z"/>
+                </svg>
+              } @else {
+                <svg viewBox="0 0 24 24" width="18" height="18">
+                  <path fill="currentColor" d="M2,5.27L3.28,4L20,20.72L18.73,22L15.65,18.92C14.5,19.3 13.28,19.5 12,19.5C7,19.5 2.73,16.39 1,12C1.78,10.05 3.1,8.35 4.75,7.03L2,4.27M12,9A3,3 0 0,1 15,12L13.18,10.18C12.89,9.59 12.41,9.11 11.82,8.82L12,9M7.94,7.94L9.82,9.82C9.4,10.3 9.17,10.93 9.2,11.58A2.78,2.78 0 0,0 12,14.38C12.65,14.4 13.28,14.17 13.76,13.76L15.39,15.39C14.39,16.08 13.23,16.5 12,16.5A4.5,4.5 0 0,1 7.5,12C7.5,10.77 7.92,9.61 8.61,8.61L7.94,7.94M12,7A5,5 0 0,1 17,12C17,12.9 16.76,13.75 16.34,14.47L20.07,18.2C21.78,16.82 23.09,15.05 23.72,13C22,8.61 17.73,5.5 12.72,5.5C11.18,5.5 9.71,5.82 8.37,6.4L10.3,8.33C10.82,7.5 11.83,7 12,7Z"/>
+                </svg>
+              }
+            </button>
+          </div>
+          @if (loginForm.get('password')?.touched && loginForm.get('password')?.invalid) {
+            <span class="error-text">La contraseña debe tener al menos 6 caracteres</span>
+          }
+        </div>
+
+        <!-- Remember Me Checkbox -->
+        <div class="form-checkbox-row">
+          <label class="checkbox-container">
+            <input type="checkbox" formControlName="rememberMe">
+            <span class="checkmark"></span>
+            Recordarme
+          </label>
+        </div>
+
+        <!-- Submit Button -->
+        <button type="submit" class="btn btn-primary btn-submit" [disabled]="isLoading() || loginSuccess()">
+          @if (isLoading()) {
+            <span class="spinner"></span>
+            Verificando...
+          } @else {
+            Iniciar Sesión
+            <svg class="btn-arrow" viewBox="0 0 24 24" width="16" height="16">
+              <path fill="currentColor" d="M4,11V13H16L10.5,18.5L11.92,19.92L19.84,12L11.92,4.08L10.5,5.5L16,11H4Z"/>
+            </svg>
+          }
+        </button>
+      </form>
+
+      <!-- Registration Options -->
+      <div class="register-divider">
+        <span>¿Eres nuevo en Parky?</span>
+      </div>
+
+      <div class="register-options">
+        <a [routerLink]="['/register']" [queryParams]="{role: 'conductor'}" class="btn btn-outline btn-reg-option">
+          <svg viewBox="0 0 24 24" width="18" height="18" class="icon-btn">
+            <path fill="currentColor" d="M12,2C6.5,2 2,6.5 2,12C2,17.5 6.5,22 12,22C17.5,22 22,17.5 22,12C22,6.5 17.5,2 12,2M12,4A8,8 0 0,1 20,12C20,14.6 18.7,16.9 16.8,18.3C16.4,17.1 15.3,16.2 14,16H10C8.7,16.2 7.6,17.1 7.2,18.3C5.3,16.9 4,14.6 4,12A8,8 0 0,1 12,4M12,6A3.5,3.5 0 0,0 8.5,9.5A3.5,3.5 0 0,0 12,13A3.5,3.5 0 0,0 15.5,9.5A3.5,3.5 0 0,0 12,6M12,8A1.5,1.5 0 0,1 13.5,9.5A1.5,1.5 0 0,1 12,11A1.5,1.5 0 0,1 10.5,9.5A1.5,1.5 0 0,1 12,8M9,18H15C15,18.6 14.6,19 14,19H10C9.4,19 9,18.6 9,18Z"/>
+          </svg>
+          Registrarse como Conductor
+        </a>
+        <a [routerLink]="['/register']" [queryParams]="{role: 'propietario'}" class="btn btn-outline btn-reg-option">
+          <svg viewBox="0 0 24 24" width="18" height="18" class="icon-btn">
+            <path fill="currentColor" d="M11,14H13V16H11V14M11,18H13V20H11V18M11,10H13V12H11V10M11,6H13V8H11V6M19,3H14.82C14.4,1.84 13.3,1 12,1C10.7,1 9.6,1.84 9.18,3H5A2,2 0 0,0 3,5V21A2,2 0 0,0 5,23H19A2,2 0 0,0 21,21V5A2,2 0 0,0 19,3M12,3A1,1 0 0,1 13,4A1,1 0 0,1 12,5A1,1 0 0,1 11,4A1,1 0 0,1 12,3M19,21H5V5H7V8H17V5H19V21Z"/>
+          </svg>
+          Registrarse como Propietario
+        </a>
+      </div>
+
+    </div>
+  </div>
+</div>

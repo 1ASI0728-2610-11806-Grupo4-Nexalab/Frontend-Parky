@@ -1,0 +1,67 @@
+<div class="page-container">
+  <div class="header-section">
+    <h1>Mis Reservas</h1>
+    <p>Revisa el historial y estado de todos tus alquileres de cocheras.</p>
+  </div>
+
+  <div class="reservations-list">
+    <div class="reservation-card" *ngFor="let res of reservations">
+      
+      <!-- Garage Image -->
+      <div class="garage-image" [style.background-image]="'url(' + res.garage?.imageUrl + ')'">
+        <div class="status-badge" 
+             [class.active]="res.status === 'active'"
+             [class.completed]="res.status === 'completed'"
+             [class.cancelled]="res.status === 'cancelled'">
+          {{ res.status === 'active' ? 'Activa' : (res.status === 'completed' ? 'Completada' : 'Cancelada') }}
+        </div>
+      </div>
+
+      <!-- Reservation Details -->
+      <div class="reservation-content">
+        <div class="main-info">
+          <h3>{{ res.garage?.address }}</h3>
+          <p class="district"><span class="material-symbols-outlined">location_on</span> {{ res.garage?.district }}</p>
+          
+          <div class="time-block">
+            <div class="time-item">
+              <span class="material-symbols-outlined">login</span>
+              <div class="time-text">
+                <span class="label">Ingreso</span>
+                <span class="value">{{ res.startTime }}</span>
+              </div>
+            </div>
+            <div class="time-item" *ngIf="res.endTime">
+              <span class="material-symbols-outlined">logout</span>
+              <div class="time-text">
+                <span class="label">Salida</span>
+                <span class="value">{{ res.endTime }}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pricing and Actions -->
+        <div class="action-sidebar">
+          <div class="price-block">
+            <span class="label">Total a pagar</span>
+            <span class="price">${{ res.totalPrice.toFixed(2) }}</span>
+          </div>
+
+          <div class="btn-group">
+            <button class="primary-btn" *ngIf="res.status === 'active'">
+              <span class="material-symbols-outlined">route</span> Ver Ruta
+            </button>
+            <button class="secondary-btn">
+              <span class="material-symbols-outlined">forum</span> Contactar
+            </button>
+            <button class="danger-btn" *ngIf="res.status === 'active'">
+              Cancelar
+            </button>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</div>

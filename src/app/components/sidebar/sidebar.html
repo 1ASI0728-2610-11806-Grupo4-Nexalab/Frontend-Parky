@@ -1,0 +1,55 @@
+<aside class="sidebar">
+  <div class="logo">
+    <div class="logo-icon">P</div>
+    <h2>Parky</h2>
+  </div>
+
+  <div class="mode-label">
+    MODO {{ mode | uppercase }}
+  </div>
+
+  <nav class="nav-menu">
+    <a *ngFor="let item of menuItems" 
+       [routerLink]="item.path" 
+       routerLinkActive="active" 
+       class="nav-item">
+      <span class="material-symbols-outlined nav-icon">{{ item.icon }}</span>
+      {{ item.label }}
+    </a>
+  </nav>
+
+  <div class="host-promo-card" (click)="openHostPromo()" [class.activated]="isHostActivated">
+    <div class="host-promo-icon">
+      <span class="material-symbols-outlined">{{ isHostActivated ? 'swap_horiz' : 'home' }}</span>
+    </div>
+    <div class="host-promo-content">
+      <h4 *ngIf="!isHostActivated">Gana dinero con tu cochera</h4>
+      <p *ngIf="!isHostActivated">Conviértete en anfitrión</p>
+      <h4 *ngIf="isHostActivated" class="switch-mode-text">Cambiar a modo {{ mode === 'propietario' ? 'conductor' : 'propietario' }}</h4>
+    </div>
+  </div>
+
+  <!-- Success Toast Notification -->
+  <div class="toast-notification success" *ngIf="showToast">
+    <span class="material-symbols-outlined">check_circle</span>
+    <div class="toast-content">
+      <h4>¡Perfil activado!</h4>
+      <p>Ahora eres un anfitrión de Parky.</p>
+    </div>
+  </div>
+
+  <!-- Host Activation Modal -->
+  <app-host-activation-modal 
+    *ngIf="isHostModalOpen" 
+    (close)="isHostModalOpen = false" 
+    (activated)="onHostActivated()">
+  </app-host-activation-modal>
+
+  <div class="user-profile-mini">
+    <img [src]="dataService.currentUser()?.avatarUrl" alt="User Profile" class="avatar">
+    <div class="user-info">
+      <h4>{{ dataService.currentUser()?.name }}</h4>
+      <p>Cuenta Básica</p>
+    </div>
+  </div>
+</aside>

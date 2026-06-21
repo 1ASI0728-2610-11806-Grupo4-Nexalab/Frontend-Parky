@@ -1,0 +1,96 @@
+<div class="profile-dashboard">
+  
+  <div class="profile-header-card">
+    <img [src]="user.avatarUrl" alt="Avatar" class="profile-avatar">
+    <div class="profile-info">
+      <h1>{{ user.name }}</h1>
+      <p>Miembro desde {{ user.memberSince }}</p>
+      
+      <div class="badges">
+        <span class="badge reputation-badge">☆ {{ user.reputation }} Reputación</span>
+        <span class="badge verified-badge" *ngIf="user.isVerified">✓ Identidad Verificada</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="mode-selector-card">
+    <div class="mode-info">
+      <h3>Modo de Usuario</h3>
+      <p>Selecciona la vista principal que deseas ver al iniciar sesión.</p>
+    </div>
+    
+    <div class="mode-toggles">
+      <div class="toggle-group">
+        <button class="toggle-btn" [class.active]="user.role === 'conductor'" (click)="switchMode('conductor')">Conductor</button>
+        <button class="toggle-btn" [class.active]="user.role === 'propietario'" (click)="switchMode('propietario')">Propietario</button>
+      </div>
+      <button class="btn btn-primary add-garage-btn">
+        <span>+</span> Agregar Nueva Cochera
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-cards-wrapper">
+    <div class="role-stats-card">
+      <div class="card-title">
+        <span class="icon car-icon">🚗</span>
+        <h3>Estadísticas de Conductor</h3>
+      </div>
+      
+      <div class="stats-row">
+        <div class="mini-stat">
+          <label>VIAJES REALIZADOS</label>
+          <div class="val">142</div>
+        </div>
+        <div class="mini-stat bg-green">
+          <label>AHORRO TOTAL</label>
+          <div class="val text-green">S/ 350.00</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="role-stats-card">
+      <div class="card-title">
+        <span class="icon home-icon">🏠</span>
+        <h3>Estadísticas de Propietario</h3>
+      </div>
+      
+      <div class="stats-row">
+        <div class="mini-stat bg-green">
+          <label>GANANCIAS TOTALES</label>
+          <div class="val text-green">S/ 1,240.00</div>
+        </div>
+        <div class="mini-stat">
+          <label>COCHERAS ACTIVAS</label>
+          <div class="val">2</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs-container">
+    <div class="tabs-header">
+      <button class="tab-btn" [class.active]="activeTab === 'vehiculos'" (click)="setTab('vehiculos')">Mis Vehículos</button>
+      <button class="tab-btn" [class.active]="activeTab === 'pagos'" (click)="setTab('pagos')">Métodos de Pago</button>
+      <button class="tab-btn" [class.active]="activeTab === 'seguridad'" (click)="setTab('seguridad')">Seguridad</button>
+    </div>
+
+    <div class="tab-content" *ngIf="activeTab === 'vehiculos'">
+      <div class="vehicle-list">
+        <div class="vehicle-item" *ngFor="let vehicle of vehicles">
+          <div class="vehicle-icon">🚗</div>
+          <div class="vehicle-details">
+            <h4>{{ vehicle.brand }} {{ vehicle.model }}</h4>
+            <p>{{ vehicle.color }} • {{ vehicle.type }}</p>
+          </div>
+          <div class="vehicle-plate">{{ vehicle.plate }}</div>
+          <button class="edit-btn">✎</button>
+        </div>
+        
+        <button class="add-new-btn">
+          <span>+</span> Agregar otro vehículo
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
