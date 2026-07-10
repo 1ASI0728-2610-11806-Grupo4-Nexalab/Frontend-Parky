@@ -35,7 +35,7 @@ export interface VisionResponse {
 })
 export class AiService {
   private http = inject(HttpClient);
-  private baseUrl = 'https://backend-pukyu.onrender.com';
+  private baseUrl = 'http://127.0.0.1:8000';
 
   constructor() {}
 
