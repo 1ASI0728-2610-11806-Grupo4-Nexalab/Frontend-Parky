@@ -1,4 +1,5 @@
-import { Injectable, signal } from '@angular/core';
+import { Injectable, signal, inject } from '@angular/core';
+import { SupabaseService } from './supabase.service';
 
 export interface User {
   id: string;
@@ -240,7 +241,53 @@ export class DataService {
   // Current user mock (Carlos Mendoza)
   public currentUser = signal<User | null>(this.initialUsers[0]);
 
-  constructor() {}
+  private supabaseService = inject(SupabaseService);
+
+  constructor() {
+    this.testSupabaseConnection();
+    this.loadRealGarages();
+  }
+
+  async testSupabaseConnection() {
+    console.log('Testing Supabase Connection...');
+    const { data, error } = await this.supabaseService.getClient().from('parking_spots').select('*').limit(1);
+    if (error) {
+      console.error('Error connecting to Supabase:', error.message);
+    } else {
+      console.log('✅ Supabase connected successfully! Data:', data);
+    }
+  }
+
+  async loadRealGarages() {
+    const { data: garagesData, error } = await this.supabaseService.getClient()
+      .from('garages')
+      .select('*, parking_spots(default_price_per_hour, is_active)');
+    
+    if (error) {
+      console.error('Error loading garages:', error.message);
+      return;
+    }
+
+    if (garagesData && garagesData.length > 0) {
+      const mapped: Garage[] = garagesData.map((g: any) => ({
+        id: g.id,
+        ownerId: g.owner_id,
+        address: g.address,
+        district: g.district || 'San Isidro',
+        pricePerHour: g.parking_spots?.[0]?.default_price_per_hour || 4.5,
+        // PostGIS location requires decoding, using fallback for MVP visualization
+        coordinates: { lat: -12.0961, lng: -77.0345 },
+        rating: 5.0,
+        features: [g.is_covered ? 'Techado' : '', g.camera_enabled ? 'Cámara IA' : ''].filter(Boolean),
+        imageUrl: 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80',
+        isAvailable: g.parking_spots?.some((s: any) => s.is_active) ?? false
+      }));
+
+      // Merge with existing mocks or overwrite
+      // For now, we will prepend the real garage from DB to the list
+      this.garages.update(current => [...mapped, ...current]);
+    }
+  }
 
   // Methods
   addUser(user: Partial<User>) {

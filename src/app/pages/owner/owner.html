@@ -58,31 +58,76 @@
 
     <div class="live-state-card">
       <div class="live-header">
-        <h3>Estado en Vivo</h3>
-        <span class="status-badge">● RESERVADO</span>
+        <h3>Cámara de Cochera (IA)</h3>
+        @if (isAnalyzing()) {
+          <span class="status-badge analyzing">● ANALIZANDO...</span>
+        } @else if (aiResult()) {
+          <span class="status-badge" [class.occupied]="aiResult()?.status === 'OCCUPIED'" [class.empty]="aiResult()?.status === 'EMPTY'">
+            ● {{ aiResult()?.status === 'OCCUPIED' ? 'OCUPADO' : 'LIBRE' }}
+          </span>
+        } @else {
+          <span class="status-badge">● MOCK ACTIVE</span>
+        }
       </div>
 
       <div class="camera-feed-small">
-        <img src="https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80" alt="Garage Feed">
-        <div class="camera-label">Cámara IA Activa</div>
+        <img [src]="previewUrl() || 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80'" alt="Garage Feed">
+        <div class="camera-label">
+          <span class="material-symbols-outlined text-red">videocam</span>
+          CCTV en Vivo
+        </div>
+        
+        <!-- Scanner bar if loading -->
+        <div class="scanner-bar" *ngIf="isAnalyzing()"></div>
+      </div>
+
+      <div class="upload-trigger-container">
+        <label class="btn btn-outline upload-btn">
+          <span class="material-symbols-outlined">upload_file</span>
+          Simular Foto Cámara
+          <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+        </label>
       </div>
 
       <div class="live-details">
-        <div class="detail-row">
-          <span>Vehículo en camino</span>
-          <strong>Carlos M. (Llegando)</strong>
-        </div>
-        <div class="detail-row">
-          <span>Reserva</span>
-          <strong>14:30 - 18:30 hs</strong>
-        </div>
-        <div class="detail-row highlight">
-          <span>Ingreso estimado</span>
-          <strong class="positive-text">+$16.00</strong>
-        </div>
+        @if (aiResult()) {
+          <!-- Mostrar resultados reales del backend FastAPI en Render -->
+          <div class="detail-row">
+            <span>Servidor YOLOv8</span>
+            <strong>{{ aiResult()?.model_version }}</strong>
+          </div>
+          
+          <!-- Buscar detección de vehículo -->
+          <div class="detail-row" *ngFor="let det of aiResult()?.detections">
+            <span *ngIf="det.type === 'vehicle'">Color Vehículo</span>
+            <strong *ngIf="det.type === 'vehicle'" class="badge-color">{{ det.color }}</strong>
+            
+            <span *ngIf="det.type === 'license_plate'">Placa (OCR)</span>
+            <strong *ngIf="det.type === 'license_plate'" class="plate-text">{{ det.text }}</strong>
+          </div>
+          
+          <div class="detail-row highlight">
+            <span>Latencia IA</span>
+            <strong class="positive-text">{{ aiResult()?.processing_time_ms }} ms</strong>
+          </div>
+        } @else {
+          <!-- Mock predeterminado original -->
+          <div class="detail-row">
+            <span>Vehículo en camino</span>
+            <strong>Carlos M. (Llegando)</strong>
+          </div>
+          <div class="detail-row">
+            <span>Reserva</span>
+            <strong>14:30 - 18:30 hs</strong>
+          </div>
+          <div class="detail-row highlight">
+            <span>Ingreso estimado</span>
+            <strong class="positive-text">+$16.00</strong>
+          </div>
+        }
       </div>
 
-      <button class="btn btn-outline details-btn">Ver Detalles de Reserva</button>
+      <p class="error-text" *ngIf="errorMessage()">{{ errorMessage() }}</p>
     </div>
   </div>
 </div>
