@@ -44,6 +44,7 @@ export class OwnerDashboard implements OnInit, OnDestroy {
   private lastCx = 0;
   private lastCy = 0;
   private staticFrames = 0;
+  private previousDetections: any[] | null = null;
 
   ngOnInit() {}
 
@@ -59,6 +60,7 @@ export class OwnerDashboard implements OnInit, OnDestroy {
     // Reset states
     this.errorMessage.set(null);
     this.aiResult.set(null);
+    this.previousDetections = null;
     if (this.aiIntervalId) clearInterval(this.aiIntervalId);
     if (this.previewUrl()) URL.revokeObjectURL(this.previewUrl()!);
 
@@ -67,6 +69,7 @@ export class OwnerDashboard implements OnInit, OnDestroy {
       this.isVideoTracking.set(false);
       this.previewUrl.set(URL.createObjectURL(file));
       this.staticFrames = 0;
+      this.previousDetections = null;
       this.isAnalyzing.set(true); // show generic analyzing badge
       
       this.aiIntervalId = setInterval(() => this.processVideoFrame(), 500);
@@ -105,7 +108,7 @@ export class OwnerDashboard implements OnInit, OnDestroy {
     
     const video = this.videoPlayer.nativeElement;
     if (video.paused || video.ended) return;
-
+    
     const canvas = document.createElement('canvas');
     canvas.width = video.videoWidth;
     canvas.height = video.videoHeight;
@@ -132,9 +135,58 @@ export class OwnerDashboard implements OnInit, OnDestroy {
         this.aiResult.set(result);
         
         if (result.detections && result.detections.length > 0) {
-          const target = result.detections.sort((a:any, b:any) => 
-            (b.bounding_box.w * b.bounding_box.h) - (a.bounding_box.w * a.bounding_box.h)
-          )[0].bounding_box;
+          let target = null;
+          
+          if (!this.previousDetections) {
+            this.previousDetections = result.detections;
+          } else {
+            let maxMovement = -1;
+            for (let current of result.detections) {
+                const ccx = current.bounding_box.x + current.bounding_box.w / 2;
+                const ccy = current.bounding_box.y + current.bounding_box.h / 2;
+                let minDistance = Infinity;
+                
+                for (let prev of this.previousDetections) {
+                    const pcx = prev.bounding_box.x + prev.bounding_box.w / 2;
+                    const pcy = prev.bounding_box.y + prev.bounding_box.h / 2;
+                    const dist = Math.sqrt(Math.pow(ccx - pcx, 2) + Math.pow(ccy - pcy, 2));
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                    }
+                }
+                
+                // Ignore huge jumps (likely mismatch) and tiny jitter
+                if (minDistance > 5 && minDistance < (canvas.width * 0.15)) {
+                    if (minDistance > maxMovement) {
+                        maxMovement = minDistance;
+                        target = current.bounding_box;
+                    }
+                }
+            }
+          }
+
+          // Fallback: track closest to last known target
+          if (!target && this.lastCx) {
+            let minDistance = Infinity;
+            for (let current of result.detections) {
+                const ccx = current.bounding_box.x + current.bounding_box.w / 2;
+                const ccy = current.bounding_box.y + current.bounding_box.h / 2;
+                const dist = Math.sqrt(Math.pow(ccx - this.lastCx, 2) + Math.pow(ccy - this.lastCy, 2));
+                if (dist < minDistance) {
+                    minDistance = dist;
+                    target = current.bounding_box;
+                }
+            }
+          }
+
+          // Ultimate fallback: largest detection
+          if (!target) {
+            target = result.detections.sort((a:any, b:any) => 
+              (b.bounding_box.w * b.bounding_box.h) - (a.bounding_box.w * a.bounding_box.h)
+            )[0].bounding_box;
+          }
+
+          this.previousDetections = result.detections;
           
           const vw = canvas.width;
           const vh = canvas.height;
@@ -150,7 +202,8 @@ export class OwnerDashboard implements OnInit, OnDestroy {
           const dx = Math.abs(cx - this.lastCx);
           const dy = Math.abs(cy - this.lastCy);
           
-          if (dx < (vw * 0.02) && dy < (vh * 0.02)) {
+          // Movement threshold (0.5% of screen)
+          if (dx < (vw * 0.005) && dy < (vh * 0.005)) {
             this.staticFrames++;
           } else {
             this.staticFrames = 0;
@@ -159,7 +212,8 @@ export class OwnerDashboard implements OnInit, OnDestroy {
           this.lastCx = cx;
           this.lastCy = cy;
           
-          if (this.staticFrames >= 3) {
+          // If car stopped for 4 frames (2 seconds), it parked successfully!
+          if (this.staticFrames >= 4) {
             this.isVideoTracking.set(false);
             if (this.aiIntervalId) clearInterval(this.aiIntervalId);
             this.isAnalyzing.set(false);
