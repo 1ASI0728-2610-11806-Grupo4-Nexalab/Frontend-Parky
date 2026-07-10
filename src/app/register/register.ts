@@ -104,7 +104,7 @@ export class Register implements OnInit {
       role: finalRole === 'both' ? 'conductor' : finalRole // Default landing mode
     });
     
-    this.dataService.currentUser.set(newUser);
+    this.dataService.setCurrentUser(newUser);
     
     if (finalRole === 'propietario') {
       this.router.navigate(['/owner']);

@@ -241,6 +241,25 @@ export class DataService {
   // Current user mock (Carlos Mendoza)
   public currentUser = signal<User | null>(this.initialUsers[0]);
 
+  public setCurrentUser(user: User | null) {
+    this.currentUser.set(user);
+    if (!user) return;
+    
+    this.chats.update(chats => {
+      return chats.map(chat => {
+        // Shared chat between Carlos (u1) and Laura (u2)
+        if (chat.id === 'c1') {
+           if (user.id === 'u1') {
+              chat.participant = { id: 'u2', name: 'Laura G.', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80', role: 'propietario' };
+           } else if (user.id === 'u2') {
+              chat.participant = { id: 'u1', name: 'Carlos Mendoza', avatarUrl: 'https://randomuser.me/api/portraits/men/32.jpg', role: 'conductor' };
+           }
+        }
+        return chat;
+      });
+    });
+  }
+
   private supabaseService = inject(SupabaseService);
 
   constructor() {

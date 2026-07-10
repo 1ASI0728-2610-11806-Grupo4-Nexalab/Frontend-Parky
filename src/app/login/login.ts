@@ -66,7 +66,7 @@ export class Login {
 
       // 3. Update the global current user state (for now in DataService)
       // Note: DataService will be refactored soon to hold the real profile instead of mock interface
-      this.dataService.currentUser.set({
+      this.dataService.setCurrentUser({
         id: profile.id,
         email: profile.email,
         name: profile.name,
