@@ -71,21 +71,37 @@
       </div>
 
       <div class="camera-feed-small">
-        <img [src]="previewUrl() || 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80'" alt="Garage Feed">
+        @if (hasVideo()) {
+          <video #videoPlayer [src]="previewUrl()" autoplay muted loop class="camera-feed-video" crossorigin="anonymous"></video>
+        } @else {
+          <img [src]="previewUrl() || 'https://images.unsplash.com/photo-1590674899484-d5640e854abe?w=500&q=80'" alt="Garage Feed">
+        }
+        
         <div class="camera-label">
           <span class="material-symbols-outlined text-red">videocam</span>
           CCTV en Vivo
         </div>
         
-        <!-- Scanner bar if loading -->
         <div class="scanner-bar" *ngIf="isAnalyzing()"></div>
+
+        <div class="ai-overlay">
+          @if (isVideoTracking()) {
+            <div class="ai-box" 
+                 [style.left.%]="boxLeft()" 
+                 [style.top.%]="boxTop()" 
+                 [style.width.%]="boxWidth()" 
+                 [style.height.%]="boxHeight()">
+              <span class="ai-tag">VEHÍCULO</span>
+            </div>
+          }
+        </div>
       </div>
 
       <div class="upload-trigger-container">
         <label class="btn btn-outline upload-btn">
           <span class="material-symbols-outlined">upload_file</span>
-          Simular Foto Cámara
-          <input type="file" (change)="onFileSelected($event)" accept="image/*" style="display: none;">
+          Simular Foto / Video
+          <input type="file" (change)="onFileSelected($event)" accept="image/*,video/*" style="display: none;">
         </label>
       </div>
 

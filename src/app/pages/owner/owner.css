@@ -344,3 +344,33 @@
 @keyframes blink {
   to { visibility: hidden; }
 }
+.camera-feed-video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.ai-overlay {
+  position: absolute;
+  top: 0; left: 0; width: 100%; height: 100%;
+  pointer-events: none;
+}
+.ai-box {
+  position: absolute;
+  border: 2px solid #00f0ff;
+  border-radius: 4px;
+  background: rgba(0, 240, 255, 0.1);
+  box-shadow: 0 0 8px rgba(0, 240, 255, 0.3);
+  transition: all 0.2s ease;
+}
+.ai-tag {
+  position: absolute;
+  top: -20px;
+  left: -2px;
+  background: #00f0ff;
+  color: #000;
+  font-size: 0.55rem;
+  font-weight: 800;
+  padding: 2px 4px;
+  border-radius: 2px;
+  white-space: nowrap;
+}
