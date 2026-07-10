@@ -71,6 +71,11 @@ export class Login {
         email: profile.email,
         name: profile.name,
         role: profile.role === 'owner' ? 'propietario' : 'conductor', // mapping to old terminology for now
+        avatarUrl: profile.avatar_url || 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80',
+        reputation: profile.reputation || 5.0,
+        memberSince: profile.created_at 
+          ? new Date(profile.created_at).toLocaleDateString('es-ES', { month: 'long', year: 'numeric' })
+          : 'Enero 2023',
       } as any);
 
       this.loginSuccess.set(true);
