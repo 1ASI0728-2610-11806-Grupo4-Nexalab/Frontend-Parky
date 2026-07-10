@@ -15,6 +15,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'driver',
+        pathMatch: 'full',
         loadComponent: () => import('./pages/driver/driver').then(m => m.DriverDashboard),
         data: { mode: 'conductor' }
       },
@@ -32,6 +33,7 @@ export const routes: Routes = [
       },
       {
         path: 'owner',
+        pathMatch: 'full',
         loadComponent: () => import('./pages/owner/owner').then(m => m.OwnerDashboard),
         data: { mode: 'propietario' }
       },

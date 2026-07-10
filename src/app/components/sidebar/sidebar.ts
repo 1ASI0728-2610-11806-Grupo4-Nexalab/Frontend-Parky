@@ -47,7 +47,7 @@ export class Sidebar implements OnChanges, OnInit {
         { label: 'Estadísticas', icon: 'bar_chart', path: '/owner/stats' },
         { label: 'Mensajes', icon: 'chat', path: '/owner/messages' },
         { label: 'Configuración', icon: 'settings', path: '/owner/settings' },
-        { label: 'Perfil', icon: 'person', path: '/owner/profile' }
+        { label: 'Perfil', icon: 'person', path: '/profile' }
       ];
     }
   }
