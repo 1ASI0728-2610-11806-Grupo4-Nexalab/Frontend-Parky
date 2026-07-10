@@ -1,5 +1,4 @@
 <div class="panel-container">
-  <!-- Top brand branding -->
   <div class="brand-overlay fade-in">
     <div class="logo-wrapper">
       <span class="logo-circle">P</span>
@@ -19,7 +18,6 @@
     }
   </div>
 
-  <!-- Bottom visual CCTV feed mockup -->
   <div class="cctv-feed-card fade-in">
     <div class="cctv-header">
       <div class="cctv-status">
@@ -29,35 +27,59 @@
       <div class="cctv-meta">
         <span>CAM_08 // COCHERA_PRIME</span>
       </div>
-      <div class="cctv-timer">{{ cctvTime() }}</div>
-    </div>
-    
-    <div class="cctv-screen">
-      <img src="images/cctv_parking.png" alt="CCTV Feed View" class="cctv-image">
       
-      <!-- Scanning Overlay Effects -->
-      <div class="cctv-scan-grid"></div>
-      <div class="scanner-bar"></div>
-      
-      <!-- Vehicle detection overlays -->
-      <div class="ai-overlay">
-        <!-- Detection Box 1 (Flickers slightly with animation) -->
-        <div class="ai-box box-1">
-          <span class="ai-tag">CARRO DETECTADO [{{ matchPercentage() }}%]</span>
-        </div>
-        
-        <!-- Detection Box 2 -->
-        <div class="ai-box box-2">
-          <span class="ai-tag">VACANTE</span>
-        </div>
+      <div class="cctv-actions" style="display: flex; gap: 10px; align-items: center;">
+        <button class="upload-btn" (click)="videoInput.click()">
+          <span class="material-symbols-outlined" style="font-size: 14px;">upload</span> Subir Video
+        </button>
+        <input type="file" #videoInput accept="video/*" style="display: none;" (change)="onVideoSelected($event)">
+        <div class="cctv-timer">{{ cctvTime() }}</div>
       </div>
     </div>
     
-    <!-- Real-time metrics bar -->
+    <div class="cctv-screen">
+      @if (hasVideo() && videoUrl()) {
+        <video #videoPlayer [src]="videoUrl()" autoplay muted loop class="cctv-image"></video>
+      } @else {
+        <img src="images/cctv_parking.png" alt="CCTV Feed View" class="cctv-image">
+      }
+      
+      <div class="cctv-scan-grid"></div>
+      <div class="scanner-bar"></div>
+      
+      <div class="ai-overlay">
+        @if (isTracking()) {
+          <div class="ai-box box-1" 
+               [style.left.%]="boxLeft()" 
+               [style.top.%]="boxTop()" 
+               [style.width.%]="boxWidth()" 
+               [style.height.%]="boxHeight()">
+            <span class="ai-tag">VEHÍCULO [{{ matchPercentage() }}%]</span>
+          </div>
+        }
+        
+        @if (!hasVideo()) {
+          <div class="ai-box box-1 static-box1">
+            <span class="ai-tag">CARRO DETECTADO [{{ matchPercentage() }}%]</span>
+          </div>
+          <div class="ai-box box-2">
+            <span class="ai-tag">VACANTE</span>
+          </div>
+        }
+        
+        @if (isOccupied()) {
+          <div class="occupied-overlay">
+            <span class="material-symbols-outlined" style="font-size: 3rem; color: #ef4444;">lock</span>
+            <span style="font-weight: 800; font-size: 1.2rem; margin-top: 10px; color: #ef4444;">ESPACIO OCUPADO</span>
+          </div>
+        }
+      </div>
+    </div>
+    
     <div class="cctv-footer">
       <div class="metric">
         <span class="metric-label">ESTADO IA:</span>
-        <span class="metric-val text-green">{{ systemStatus() }}</span>
+        <span class="metric-val text-green" [class.text-red]="isOccupied()">{{ systemStatus() }}</span>
       </div>
       <div class="metric">
         <span class="metric-label">CONTEO IA:</span>
