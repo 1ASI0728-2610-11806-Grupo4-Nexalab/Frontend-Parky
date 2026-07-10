@@ -251,7 +251,7 @@ export class DataService {
         if (chat.id === 'c1') {
            if (user.role === 'conductor') {
               chat.participant = { id: 'u2', name: 'Laura G.', avatarUrl: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&q=80', role: 'propietario' };
-           } else if (user.role === 'propietario' || user.role === 'owner') {
+           } else if (user.role === 'propietario') {
               chat.participant = { id: 'u1', name: 'Carlos Mendoza', avatarUrl: 'https://randomuser.me/api/portraits/men/32.jpg', role: 'conductor' };
            }
         }
