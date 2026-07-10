@@ -172,12 +172,14 @@
 }
 
 .camera-feed-small {
-  position: relative;
-  border-radius: 12px;
-  overflow: hidden;
-  height: 140px;
-  margin-bottom: 1.5rem;
-}
+    position: relative;
+    border-radius: 12px;
+    overflow: hidden;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+    background: #000;
+    margin-bottom: 1.5rem;
+  }
 
 .camera-feed-small img {
   width: 100%;

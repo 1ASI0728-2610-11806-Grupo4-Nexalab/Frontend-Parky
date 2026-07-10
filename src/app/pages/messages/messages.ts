@@ -16,8 +16,9 @@ export class MessagesView implements OnInit {
   chats: ChatThread[] = [];
   activeChat: ChatThread | null = null;
   newMessageText: string = '';
-  currentUserId = 'u1'; // Mock user Carlos
-
+  get currentUserId() {
+    return this.dataService.currentUser()?.id || 'u1';
+  }
   constructor(
     public dataService: DataService, 
     private router: Router,
