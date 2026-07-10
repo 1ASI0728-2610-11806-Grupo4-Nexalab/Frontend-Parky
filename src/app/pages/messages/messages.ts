@@ -61,7 +61,7 @@ export class MessagesView implements OnInit {
     // Si el chat es con Laura G. (ID u2), responder con el chatbot de IA real
     if (this.activeChat.participant.id === 'u2') {
       const garageId = '44444444-4444-4444-4444-444444444444'; // Cochera Av. Libertador de la semilla SQL
-      const threadId = this.activeChat.id;
+      const threadId = this.activeChat.id.length > 10 ? this.activeChat.id : undefined;
 
       this.aiService.sendMessage(textToSend, threadId, garageId).subscribe({
         next: (res) => {
