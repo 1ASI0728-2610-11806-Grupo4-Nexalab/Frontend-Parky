@@ -120,7 +120,7 @@ export class OwnerDashboard implements OnInit, OnDestroy {
       formData.append('file', blob, 'frame.jpg');
       
       try {
-        const response = await fetch('http://127.0.0.1:8000/api/v1/cv/analyze-image', {
+        const response = await fetch('https://backend-pukyu.onrender.com/api/v1/cv/analyze-image', {
           method: 'POST',
           body: formData
         });
